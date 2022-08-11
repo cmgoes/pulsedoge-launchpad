@@ -44,6 +44,7 @@ const Web3StatusGeneric = styled(ButtonSecondary)`
   user-select: none;
   :focus {
     outline: none;
+  }
 `;
 const Web3StatusError = styled(Web3StatusGeneric)`
   background-color: ${({ theme }) => theme.red1};

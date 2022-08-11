@@ -1,11 +1,12 @@
 import React from "react";
-import { NavLink } from "react-router-dom";
+import { NavLink, useLocation } from "react-router-dom";
 import styled from "styled-components/macro";
 import PulseDogeLogo from "assets/images/Pulsedoge-Logo.png";
 import Row, { RowFixed } from "../Row";
 import Web3Status from "../Web3Status";
 import MobileMenu from "./MobileMenu";
 import ToggleTheme from "components/Menu";
+import "./navlink.scss"
 
 const HeaderFrame = styled.div`
   display: grid;
@@ -99,6 +100,16 @@ const UniIcon = styled.div`
   transition: transform 0.3s ease;
 `;
 
+const BuyButton = styled.button`
+  background-color: #ff7f37;
+  border-radius: 12px;
+  padding: 0.5rem;
+  min-width: 120px;
+  cursor: pointer;
+  color: white;
+  border: none;
+`
+
 const PriceBox = styled.div`
   border: 1px solid #595959;
   border-radius: 25px;
@@ -106,6 +117,9 @@ const PriceBox = styled.div`
   justify-content: center;
   align-items: center;
   padding: 4px 6px;
+  ${({ theme }) => theme.mediaWidth.upToExtraSmall`
+    display: none;
+  `}
 `;
 
 const PriceIcon = styled.div`
@@ -119,11 +133,9 @@ const PriceText = styled.span`
   color: white;
 `;
 
-const activeClassName = "ACTIVE";
+const activeClassName = "active";
 
-const StyledNavLink = styled(NavLink).attrs({
-  activeClassName,
-})`
+const StyledNavLink = styled(NavLink)`
   ${({ theme }) => theme.flexRowNoWrap}
   position: relative;
   align-items: left;
@@ -153,8 +165,8 @@ const StyledNavLink = styled(NavLink).attrs({
     border-radius: 50%;
   }
 
-  &.${activeClassName} {
-    /* border-radius: 12px; */
+
+  /* &.${activeClassName} {
     font-weight: 600;
     color: #fff;
     border-bottom: 1px solid white;
@@ -162,7 +174,7 @@ const StyledNavLink = styled(NavLink).attrs({
     ::before {
       content: "";
     }
-  }
+  } */
 `;
 const MobileMenuContent = styled.div`
   display: none;
@@ -172,6 +184,8 @@ const MobileMenuContent = styled.div`
 `;
 
 export default function Header() {
+  const {pathname} = useLocation();
+  console.log(pathname)
   return (
     <HeaderFrame>
       <RowFixed>
@@ -182,22 +196,24 @@ export default function Header() {
           </UniIcon>
         </Title>
         <HeaderLinks>
-          <StyledNavLink id={`swap-nav-link`} to={"/swap"}>
+          <StyledNavLink className={`${pathname === '/' ? 'active-navlink' : ''}`} id={`swap-nav-link`} to={"/"}>
             Home
           </StyledNavLink>
-          <StyledNavLink id={`swap-nav-link`} to={"/staking"}>
+          <StyledNavLink className={`${pathname === '/staking' ? 'active-navlink' : ''}`} id={`swap-nav-link`} to={"/staking"}>
             Staking
           </StyledNavLink>
-          <StyledNavLink id={`swap-nav-link`} to={"/nft"}>
+          <StyledNavLink className={`${pathname === '/nft' ? 'active-navlink' : ''}`} id={`swap-nav-link`} to={"/nft"}>
             NFT
           </StyledNavLink>
-          <StyledNavLink id={`swap-nav-link`} to={"/memebank"}>
+          <StyledNavLink className={`${pathname === '/memebank' ? 'active-navlink' : ''}`} id={`swap-nav-link`} to={"/memebank"}>
             Meme Bank
           </StyledNavLink>
         </HeaderLinks>
       </RowFixed>
       <HeaderControls>
         <HeaderElement>
+          {/* </> */}
+          <BuyButton>Buy on Pancake</BuyButton>
           <PriceBox>
             <PriceIcon>
               <img width={"24px"} src={PulseDogeLogo} alt="profile" />

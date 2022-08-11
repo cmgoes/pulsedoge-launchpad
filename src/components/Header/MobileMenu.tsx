@@ -1,6 +1,6 @@
 import React, { useState, useRef } from "react";
 import { Menu } from "react-feather";
-import { NavLink } from "react-router-dom";
+import { NavLink, useLocation } from "react-router-dom";
 import styled from "styled-components/macro";
 import Web3Status from "components/Web3Status";
 import { useOnClickOutside } from "hooks/useOnClickOutside";
@@ -88,17 +88,23 @@ const StyledNavLink = styled(NavLink).attrs({
   width: fit-content;
   font-weight: 500;
   padding: 12px 0;
-  &.${activeClassName} {
+  /* &.${activeClassName} {
     font-weight: 600;
     color: ${({ theme }) => theme.text2};
-  }
+  } */
 `;
+
+const ActiveStyledNavLink = styled(StyledNavLink)`
+  font-weight: 600;
+  color: ${({ theme }) => theme.text2};
+`
 
 const Web3Element = styled.div`
   margin-top: 12px;
 `;
 
 export default function MobileMenu() {
+  const { pathname } = useLocation();
   const node = useRef<HTMLDivElement>();
 
   const [openModal, setOpenModal] = useState<boolean>(false);
@@ -118,18 +124,32 @@ export default function MobileMenu() {
       {openModal && (
         <MenuFlyout>
           <MobileLinks>
-            <StyledNavLink id={`swap-nav-link`} to={"/swap"}>
+            {pathname === "/" ? (
+              <ActiveStyledNavLink to={"/"}>Home</ActiveStyledNavLink>
+            ) : (
+              <StyledNavLink to={"/"}>
               Home
-            </StyledNavLink>
-            <StyledNavLink id={`swap-nav-link`} to={"/staking"}>
-              Staking
-            </StyledNavLink>
-            <StyledNavLink id={`swap-nav-link`} to={"/nft"}>
+              </StyledNavLink>
+            )}
+            {pathname === "/staking" ? (
+              <ActiveStyledNavLink to={"/staking"}>Staking</ActiveStyledNavLink>
+            ) : (
+              <StyledNavLink to={"/staking"}>Staking</StyledNavLink>
+            )}
+            {pathname === "/nft" ? (
+              <ActiveStyledNavLink to={"/nft"}>NFT</ActiveStyledNavLink>
+            ) : (
+              <StyledNavLink to={"/nft"}>
               NFT
-            </StyledNavLink>
-            <StyledNavLink id={`swap-nav-link`} to={"/memebank"}>
+              </StyledNavLink>
+            )}
+            {pathname === "/memebank" ? (
+              <ActiveStyledNavLink to={"/memebank"}>Meme Bank</ActiveStyledNavLink>
+            ) : (
+              <StyledNavLink to={"/memebank"}>
               Meme Bank
-            </StyledNavLink>
+              </StyledNavLink>
+            )}
           </MobileLinks>
           <Web3Element>
             <Web3Status />
