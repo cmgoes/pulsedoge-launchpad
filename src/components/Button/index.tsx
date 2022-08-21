@@ -31,7 +31,7 @@ export const BaseButton = styled(RebassButton)<
   align-items: center;
   cursor: pointer;
   position: relative;
-  z-index: 1;
+  // z-index: 1;
   &:disabled {
     opacity: 50%;
     cursor: auto;

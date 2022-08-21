@@ -1,6 +1,6 @@
 import Loader from "../../components/Loader";
 import ApeModeQueryParamReader from "hooks/useApeModeQueryParamReader";
-import { lazy, Suspense, useState } from "react";
+import { lazy, Suspense, useState, useEffect } from "react";
 import { CopyToClipboard } from "react-copy-to-clipboard";
 import { Redirect, Route, Switch } from "react-router-dom";
 import styled from "styled-components/macro";
@@ -24,16 +24,18 @@ import PoolFinder from "../PoolFinder";
 import RemoveLiquidity from "../RemoveLiquidity";
 import RemoveLiquidityV3 from "../RemoveLiquidity/V3";
 import Swap from "../Swap";
+import { useMoralisWeb3Api, useMoralis } from "react-moralis";
+import BEP20_ABI from 'abis/bscpulse.json'
+
 import {
   OpenClaimAddressModalAndRedirectToSwap,
   RedirectPathToSwapOnly,
   RedirectToSwap,
 } from "../Swap/redirects";
 import BackgroundLand from "../../assets/images/bodybackbg.jpg";
-import ProfileIco from "../../assets/images/PulseDoge-logo1.png";
 import CopyIco from "../../assets/images/Vector.png";
-import StakingImage1 from "../../assets/images/PulseSpace1.png";
-import StakingImage2 from "../../assets/images/PulseSpace2.png";
+import StakingImage1 from "../../assets/images/spacesuite.png";
+import StakingImage2 from "../../assets/images/dhalsim.png";
 
 const Vote = lazy(() => import("../Vote"));
 
@@ -44,8 +46,8 @@ const AppWrapper = styled.div`
   overflow-x: hidden;
   background: linear-gradient(
       180deg,
-      #0e131b 12.58%,
-      rgba(14, 19, 27, 0.45) 47.15%,
+      rgba(14, 19, 27, 0.99) 2.58%,
+      rgba(14, 19, 27, 0.15) 47.15%,
       rgba(14, 19, 27, 0.85) 81.22%,
       #0e131b 99.99%
     ),
@@ -81,8 +83,7 @@ const BodyWrapper = styled.div`
   justify-content: center;
   flex: 1;
   overflow-y: auto;
-  overflow-x: hidden;
-  z-index: 10;
+  overflow-x: hidden;  
 
   ${({ theme }) => theme.mediaWidth.upToSmall`
     padding: 16px;
@@ -107,9 +108,7 @@ const BodyWrapper = styled.div`
     padding-top: 5rem;
     padding-left: 64px;
     padding-right: 64px;
-  }
-
-  z-index: 1;
+  }  
 `;
 
 const TechContainer = styled.div`
@@ -192,6 +191,15 @@ const AddressBox = styled.div`
   }
 `;
 
+const AddressTitle = styled.div`
+  font-weight: 400;
+  font-family: SF-Pro-Display-Medium;
+  letter-spacing: 0.08rem;
+  color: white;
+  font-size: 18px;
+  margin-bottom: 16px;
+`
+
 const AddressText = styled.div`
   border: none;
   color: white;
@@ -253,8 +261,9 @@ const CopiedText = styled.div`
   letter-spacing: 0.08rem;  
 `;
 
-const ChartButton = styled.div`
+const ChartButton = styled.a`
   margin-top: 16px;
+  text-decoration: none;
   padding: 5px 10px;
   width: 120px;
   text-align: center;
@@ -310,7 +319,7 @@ const StateBox = styled.div`
 const StateCardContainer = styled.div`
   display: flex;
   justify-content: space-between;
-  @media (max-width: 600px) {
+  @media (max-width: 767px) {
     flex-direction: column;
   }
 `;
@@ -318,72 +327,57 @@ const StateCardContainer = styled.div`
 const StateCard = styled.div`
   position: relative;
   display: flex;
-  justify-content: center;
-  align-items: center;
+  flex-direction: column;    
   background: rgba(255, 255, 255, 0.05);
   border: 1px solid rgba(255, 255, 255, 0.1);
   border-radius: 8px;
   width: 32%;
   height: 132px;
-  @media (max-width: 600px) {
+  @media (max-width: 767px) {
     width: 100%;
     margin-top: 8px;
-    height: 100px;
+    height: 108px;
   }
 `;
 
-const ProfileCard = styled.div`
-  position: relative;
+const StateTextWrapper = styled.div`
   display: flex;
-  justify-content: flex-start;
-  background: rgba(255, 255, 255, 0.05);
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  border-radius: 8px;
-  width: 32%;
-  height: 132px;
-  @media (max-width: 600px) {
-    width: 100%;
-    height: 100px;
-  }
+  justify-content: center;
+  margin-bottom: 18px;
+  flex-grow: 1;
+  align-items: center;
 `;
 
 const Statetext = styled.div`
-  font-size: 22px;
+  padding: 14px 8px;
+  text-align: center;
+  font-size: 18px;
+  line-height: 1.4;
   font-family: SF-Pro-Display-Light;
   letter-spacing: 0.08rem;
   color: #f3f3f3;
-  font-weight: 700;
-`;
-
-const PriceTextContainer = styled.div`
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  padding-left: 12px;
-  @media (max-width: 600px) {
-    padding-left: 24px;
+  font-weight: 300;
+  @media (max-width: 767px) {
+    padding: 14px 8px;
+    font-size: 16px;
   }
 `;
 
-const PriceTitle = styled.div`
-  font-size: 18px;
-  font-family: SF-Pro-Display-Light;
-  letter-spacing: 0.08rem;
-  color: #f9f9ff;
-  font-weight: 500;
-  margin-bottom: 8px;
-`;
-
-const PriceText = styled.div`
-  font-size: 18px;
-  font-family: SF-Pro-Display-Light;
-  letter-spacing: 0.08rem;
-  font-weight: 270;
-  color: #f9f9ff;
-`;
-
-const StateCardTitle = styled.div`
+const StateCardTitle = styled.a`
   position: absolute;
+  text-decoration: none;
+  bottom: 5px;
+  font-family: SF-Pro-Display-Light;
+  letter-spacing: 0.08rem;
+  left: 16px;
+  color: #FF7F37;
+  /* opacity: 30%; */
+  font-size: 12px;  
+`;
+
+const StateCardTitleDisabled = styled.a`
+  position: absolute;
+  text-decoration: none;
   bottom: 5px;
   font-family: SF-Pro-Display-Light;
   letter-spacing: 0.08rem;
@@ -393,9 +387,12 @@ const StateCardTitle = styled.div`
   font-size: 12px;  
 `;
 
-const ProfileLogo = styled.div`
+const CardHeader = styled.div`
+  font-size: 12px;
   padding: 8px;
-  width: 52px;
+  color: white;
+  font-family: SF-Pro-Display-Light;
+  letter-spacing: 0.08rem;
 `;
 
 const SwapBox = styled.div`
@@ -437,7 +434,7 @@ const StakingCard = styled.div`
   border-radius: 8px;
   padding: 8px;
   margin-bottom: 20px;
-  z-index: 1;
+  z-index: 0;
   @media (min-width: 768px) {
     width: 47.5%;
     padding: 12px;
@@ -476,13 +473,13 @@ const StakingImageContainer = styled.div`
     width: 300px;
     z-index: 10;
     @media (min-width: 768px) {
-      width: 450px;
+      width: 400px;
     }
   }
 `;
 
 const StakingTitle = styled.div`
-  padding: 5px 0;
+  padding: 16px 0;
   font-weight: 700;
   font-size: 24px;
   font-family: SF-Pro-Display-Medium;
@@ -503,15 +500,13 @@ const StakingText = styled.div`
   opacity: 0.8;
 `;
 
-const StakingButton = styled.div`
-  display: flex;
-`;
-
-const StakingLearnMoreButton = styled.div`
+const StakingLearnMoreButton = styled.a`
   cursor: pointer;
+  display: block;
   margin: 24px 12px 24px 0;
   background: tranparent;
-  width: 130px;
+  width: 160px;
+  text-decoration: none;
   border-radius: 8px;
   font-weight: 700;
   padding: 10px 20px;
@@ -524,21 +519,6 @@ const StakingLearnMoreButton = styled.div`
   color: #ff7f37;
 `;
 
-const StakingLaunchDappButton = styled.div`
-  cursor: pointer;
-  margin: 24px 0;
-  background: #ff7f37;
-  width: 142px;
-  border-radius: 8px;
-  font-weight: 700;
-  padding: 10px 20px;
-  font-size: 14px;
-  font-family: SF-Pro-Display-Thin;
-  text-align: center;
-  letter-spacing: 0.08rem;
-  line-height: 19px;
-  color: #ffffff;
-`;
 const Marginer = styled.div`
   @media (min-width: 768px) {
     margin-top: 5rem;
@@ -547,6 +527,46 @@ const Marginer = styled.div`
 
 export default function Home() {
   const [isCopied, setIsCopied] = useState<boolean>(false);
+  const { authenticate } = useMoralis();
+  const Web3Api = useMoralisWeb3Api();
+
+  const [supply, setSupply] = useState(0);
+
+  const getTotalSupply = async () => {
+    await authenticate();
+
+    const options1: any = {
+      chain: "bsc",
+      address: '0xd4d55b811d9ede2adce61a98d67d7f91bffce495', // pulse
+      function_name: 'balanceOf',
+      abi: BEP20_ABI,
+      params: { account: '0xd4d55b811d9ede2adce61a98d67d7f91bffce495' },
+    };
+    const contractbalance = await Web3Api.native.runContractFunction(options1);    
+
+    const options2: any = {
+      chain: "bsc",
+      address: '0xd4d55b811d9ede2adce61a98d67d7f91bffce495', // pulse
+      function_name: 'balanceOf',
+      abi: BEP20_ABI,
+      params: { account: '0x000000000000000000000000000000000000dead' },
+    };
+    const burnbalance = await Web3Api.native.runContractFunction(options2);    
+
+    const options: any = {
+      chain: "bsc",
+      address: '0xd4d55b811d9ede2adce61a98d67d7f91bffce495', // pulse
+      function_name: 'totalSupply',
+      abi: BEP20_ABI,
+    };
+    const maxSupply = await Web3Api.native.runContractFunction(options);    
+    setSupply(Math.floor((Number(maxSupply) - Number(contractbalance) - Number(burnbalance)) / 10**18));  
+  };
+
+  useEffect(() => {
+    getTotalSupply();
+    // eslint-disable-next-line
+  }, []);
 
   const showCopiedText = () => {
     setIsCopied(true);
@@ -580,6 +600,7 @@ export default function Home() {
               <ListedText>1B max supply, shrinking</ListedText>
               <ListedText>Also Jpegs</ListedText>
             </ListCont>
+            <AddressTitle>BSC address</AddressTitle>
             <AddressBox>
               <AddressText>
                 0xd4d55b811d9ede2adce61a98d67d7f91bffce495
@@ -594,7 +615,7 @@ export default function Home() {
                 {isCopied && <CopiedText>Copied</CopiedText>}
               </CopyButton>
             </AddressBox>
-            <ChartButton>Price Chart</ChartButton>
+            <ChartButton href="https://dexscreener.com/bsc/0xb65697ec1a73ec1bf82677e62cb86d9369ba6c34" target="_blank">Price Chart</ChartButton>
           </TechContainer>
           <Suspense fallback={<Loader />}>
             <SwapBox>
@@ -704,24 +725,27 @@ export default function Home() {
         <StateTitle>Stats</StateTitle>
         <StateBox>
           <ProgressBar completed={70} />
-          <StateCardContainer>
-            <ProfileCard>
-              <ProfileLogo>
-                <img src={ProfileIco} width="100%" alt="profile" />
-              </ProfileLogo>
-              <PriceTextContainer>
-                <PriceTitle>PulseDoge</PriceTitle>
-                <PriceText>$0,007500</PriceText>
-              </PriceTextContainer>
-              <StateCardTitle>Token Price</StateCardTitle>
-            </ProfileCard>
+          <StateCardContainer>            
             <StateCard>
-              <Statetext>255,045.00</Statetext>
-              <StateCardTitle>Remaining tokens</StateCardTitle>
+              <CardHeader>Pulsedoge - BSC</CardHeader>
+              <StateTextWrapper>
+                <Statetext>Supply (shrinking) {supply} / 1Bn</Statetext>
+              </StateTextWrapper>
+              <StateCardTitle href="https://dexscreener.com/bsc/0xb65697ec1a73ec1bf82677e62cb86d9369ba6c34" target="_blank">Chart</StateCardTitle>
             </StateCard>
             <StateCard>
-              <Statetext>1,785</Statetext>
-              <StateCardTitle>NFT’s Left</StateCardTitle>
+              <CardHeader>Pulsedoge - ETH</CardHeader>
+              <StateTextWrapper>
+                <Statetext>Coming soon</Statetext>
+              </StateTextWrapper>
+              <StateCardTitleDisabled>Chart</StateCardTitleDisabled>
+            </StateCard>
+            <StateCard>
+              <CardHeader>Pulsedoge - PLS</CardHeader>
+              <StateTextWrapper>
+                <Statetext>Coming soon</Statetext>
+              </StateTextWrapper>
+              <StateCardTitleDisabled>Chart</StateCardTitleDisabled>
             </StateCard>
           </StateCardContainer>
         </StateBox>               
@@ -736,25 +760,19 @@ export default function Home() {
           <StakingText>
             Stake your Pulsedoge and earn up to 36,9% yield - 
             the rewards come from existing supply so it is never inflationary!
-          </StakingText>
-          <StakingButton>
-            <StakingLearnMoreButton>Learn more</StakingLearnMoreButton>
-            <StakingLaunchDappButton>Launch dApp</StakingLaunchDappButton>
-          </StakingButton>
+          </StakingText>          
+          <StakingLearnMoreButton href="#/staking">Launch dApp</StakingLearnMoreButton>
         </StakingCard>
         <StakingCard>
           <StakingImageContainer>
             <img src={StakingImage2} alt="Staking" />
           </StakingImageContainer>
-          <StakingTitle>What is Echo Staking?</StakingTitle>
+          <StakingTitle>Pulsedoge NFT - Winners only can mint</StakingTitle>
           <StakingText>
             Get one of the 1,476 unique Pulsedoge character NFTs by burning Pulsedoge tokens!
             That&apos;s right, we found a way to ACTUALLY create a pumpamental for jpegs
-          </StakingText>
-          <StakingButton>
-            <StakingLearnMoreButton>Learn more</StakingLearnMoreButton>
-            <StakingLaunchDappButton>Launch dApp</StakingLaunchDappButton>
-          </StakingButton>
+          </StakingText>          
+          <StakingLearnMoreButton href="#/nft">Launch dApp</StakingLearnMoreButton>
         </StakingCard>
       </StakingBox>
       <Footer />

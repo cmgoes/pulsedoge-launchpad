@@ -26,6 +26,7 @@ import UserUpdater from "./state/user/updater";
 import ThemeProvider, { ThemedGlobalStyle } from "./theme";
 import RadialGradientByChainUpdater from "./theme/RadialGradientByChainUpdater";
 import getLibrary from "./utils/getLibrary";
+import { MoralisProvider } from "react-moralis";
 
 const Web3ProviderNetwork = createWeb3ReactRoot(NetworkContextName);
 
@@ -49,25 +50,30 @@ function Updaters() {
 
 ReactDOM.render(
   <StrictMode>
-    <Provider store={store}>
-      <HashRouter>
-        <LanguageProvider>
-          <Web3ReactProvider getLibrary={getLibrary}>
-            <Web3ProviderNetwork getLibrary={getLibrary}>
-              <Blocklist>
-                <BlockNumberProvider>
-                  <Updaters />
-                  <ThemeProvider>
-                    <ThemedGlobalStyle />
-                    <App />
-                  </ThemeProvider>
-                </BlockNumberProvider>
-              </Blocklist>
-            </Web3ProviderNetwork>
-          </Web3ReactProvider>
-        </LanguageProvider>
-      </HashRouter>
-    </Provider>
+    <MoralisProvider
+      serverUrl="https://ejcatkoqyiz4.usemoralis.com:2053/server"
+      appId="AZ2maq1YIweLwskn0gVLdilE1iKUCXlH0wjbLzD8"
+    >
+      <Provider store={store}>
+        <HashRouter>
+          <LanguageProvider>
+            <Web3ReactProvider getLibrary={getLibrary}>
+              <Web3ProviderNetwork getLibrary={getLibrary}>
+                <Blocklist>
+                  <BlockNumberProvider>
+                    <Updaters />
+                    <ThemeProvider>
+                      <ThemedGlobalStyle />
+                      <App />
+                    </ThemeProvider>
+                  </BlockNumberProvider>
+                </Blocklist>
+              </Web3ProviderNetwork>
+            </Web3ReactProvider>
+          </LanguageProvider>
+        </HashRouter>
+      </Provider>
+    </MoralisProvider>
   </StrictMode>,
   document.getElementById("root")
 );

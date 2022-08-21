@@ -1,11 +1,21 @@
-import React from "react";
+import { useState, useEffect } from "react";
 import { NavLink, useLocation } from "react-router-dom";
+import { X } from "react-feather";
 import styled from "styled-components/macro";
 import PulseDogeLogo from "assets/images/Pulsedoge-Logo.png";
+import PulseDogeERC from "assets/images/LogoERC20.png";
+import PulseDogeBEP from "assets/images/LogoBEP20.png";
+import EthLogo from "assets/images/ethsym.png";
+import BSCLogo from "assets/images/bscsym.png";
 import Row, { RowFixed } from "../Row";
 import Web3Status from "../Web3Status";
 import MobileMenu from "./MobileMenu";
-import ToggleTheme from "components/Menu";
+import Modal from 'react-modal';
+import FAQAccordion from "../FAQAccordion";
+import { FAQData } from "../../utils/faqcontent";
+import { Scrollbars } from 'react-custom-scrollbars-2';
+// import ToggleTheme from "components/Menu";
+import { useMoralisWeb3Api, useMoralis } from "react-moralis";
 import "./navlink.scss"
 
 const HeaderFrame = styled.div`
@@ -20,7 +30,7 @@ const HeaderFrame = styled.div`
   position: relative;
   border-bottom: 1px solid rgba(0, 0, 0, 0.1);
   padding: 1rem;
-  z-index: 2;
+  /* z-index: 2; */
 
   ${({ theme }) => theme.mediaWidth.upToExtraSmall`
         padding: 0.5rem 1rem;
@@ -40,7 +50,7 @@ const HeaderElement = styled.div`
   gap: 8px;
 
   ${({ theme }) => theme.mediaWidth.upToMedium`
-    flex-direction: row-reverse;
+    flex-direction: row;
     align-items: center;
   `};
 `;
@@ -66,14 +76,14 @@ const AccountElement = styled.div<{ active: boolean }>`
   align-items: center;
   /* background-color: ${({ theme, active }) =>
     !active ? theme.buttonbg1 : theme.buttonbg1}; */
-  background-color: #ff7f37;
-  border-radius: 12px;
+  background-color: transparent;
+  border-radius: 12px;  
   white-space: nowrap;
   width: 100%;
   cursor: pointer;
 
   :focus {
-    border: 1px solid blue;
+    border: 1px solid #d16b35;
   }
 
   ${({ theme }) => theme.mediaWidth.upToMedium`
@@ -100,23 +110,30 @@ const UniIcon = styled.div`
   transition: transform 0.3s ease;
 `;
 
-const BuyButton = styled.button`
-  background-color: #ff7f37;
+const BuyButton = styled.a`
+  background-color: transparent;
+  text-decoration: none;
+  font-size: 12px;
+  font-family: "SF-Pro-Display-Semibold";
+  text-align: center;
   border-radius: 12px;
+  border: 1px solid #d16b35;
   padding: 0.5rem;
-  min-width: 120px;
+  min-width: 110px;
   cursor: pointer;
-  color: white;
-  border: none;
+  color: white;  
+  :hover {
+    opacity: 0.8;
+  }
 `
 
 const PriceBox = styled.div`
-  border: 1px solid #595959;
-  border-radius: 25px;
+  border: 1px solid #d16b35;
+  border-radius: 12px;
   display: flex;
   justify-content: center;
   align-items: center;
-  padding: 4px 6px;
+  padding: 3px 6px;
   ${({ theme }) => theme.mediaWidth.upToExtraSmall`
     display: none;
   `}
@@ -125,12 +142,19 @@ const PriceBox = styled.div`
 const PriceIcon = styled.div`
   display: flex;
   align-items: center;
+  :first-child {
+    padding-right: 0.1rem;
+  }
 `;
 
-const PriceText = styled.span`
+const PriceText = styled.a`
   font-size: 12px;
+  text-decoration: none;
   padding-left: 6px;
   color: white;
+  :hover {
+    opacity: 0.8;
+  }
 `;
 
 const activeClassName = "active";
@@ -183,9 +207,151 @@ const MobileMenuContent = styled.div`
   `};
 `;
 
+const FAQButton = styled.button`
+  position: relative;  
+  border: 1px solid #d16b35;
+  background-color: transparent;
+  margin: 0;
+  padding: 0;
+  height: 32px;  
+  width: 32px;
+  color: #d16b35;
+  /* background-color: ${({ theme }) => theme.bg3}; */
+  margin-left: 1rem;
+
+  padding: 0.15rem 0.5rem;
+  border-radius: 0.5rem;
+
+  :hover,
+  :focus {
+    cursor: pointer;
+    outline: none;
+    /* background-color: ${({ theme }) => theme.bg4}; */
+  }
+
+  svg {
+    margin-top: 2px;
+  }
+`;
+
+const ModalHeaderWrapper = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.8rem 0.6rem;  
+  border-bottom: 1px solid rgb(21, 24, 30);
+  @media (min-width: 768px) {
+    padding: 1rem 2rem;
+  }
+`;
+
+const ModalHeader = styled.div`
+  font-size: 24px;
+  font-family: SF-Pro-Text-Medium; 
+  text-transform: uppercase;
+  font-weight: 500;
+  color: white;
+`;
+
+const ModalClose = styled.button`
+  font-size: 20px;
+  padding: 8px 0;
+  background-color: transparent;
+  border: none;
+  cursor: pointer;  
+`;
+
+const ModalContentWrapper = styled.div`
+  padding: 0.5rem 0;
+  height: 90vh;
+  margin-right: -1px;
+  /* overflow: scroll; */
+  @media (min-width: 360px) {
+    padding: 0.5rem 0;
+  }
+  @media (min-width: 768px) {
+    padding: 1rem 0;
+  }
+`;
+
+const ModalContentHeader = styled.div`
+  padding: 0.6rem;
+  text-align: center;
+  font-size: 24px;
+  font-family: SF-Pro-Text-Medium;   
+  font-weight: 500;
+  color: white;
+`;
+
+const ModalContent = styled.div`
+  padding: 0 0.2rem;
+  @media (min-width: 360px) {
+    padding: 0 0.8rem;
+  }
+  @media (min-width: 768px) {
+    padding: 0 2rem;
+  }
+  @media (min-width: 992px) {
+    padding: 0 4rem;
+  }
+`;
+const customStyles = {
+  overlay: {
+    backgroundColor: 'transparent',
+  },
+  content: {
+    top: '50%',
+    left: '50%',
+    right: 'auto',
+    height: '96vh',
+    // minWidth: '1020px',
+    width: '90%',
+    borderRadius: '1.5rem',
+    border: '1px solid rgb(21, 24, 30)',
+    bottom: 'auto', 
+    padding: '0',   
+    zIndex: 100,
+    overflow: 'hidden',
+    marginRight: '-50%',
+    transform: 'translate(-50%, -50%)',
+    backgroundColor: 'rgb(32, 37, 45)',    
+  },  
+};
+
 export default function Header() {
   const {pathname} = useLocation();
-  console.log(pathname)
+  const { authenticate } = useMoralis();
+  const Web3Api = useMoralisWeb3Api();
+
+  const [price, setPrice] = useState('');
+  const [modalIsOpen, setIsOpen] = useState(false);
+
+  const getPrice = async () => {
+    await authenticate();        
+
+    const options: any = {
+      chain: "bsc",
+      address: '0xd4d55b811d9ede2adce61a98d67d7f91bffce495', // pulse
+      exchange: "PancakeSwapv2",
+    };
+    const _price = await Web3Api.token.getTokenPrice(options); 
+    setPrice(_price.usdPrice.toFixed(4));
+    console.log("Price", typeof _price.usdPrice.toFixed(4));        
+  };
+
+  useEffect(() => {
+    getPrice();
+    // eslint-disable-next-line
+  }, []);
+
+  function openModal() {
+    setIsOpen(true);
+  }
+
+  function closeModal() {
+    setIsOpen(false);
+  } 
+
   return (
     <HeaderFrame>
       <RowFixed>
@@ -205,21 +371,33 @@ export default function Header() {
           <StyledNavLink className={`${pathname === '/nft' ? 'active-navlink' : ''}`} id={`swap-nav-link`} to={"/nft"}>
             NFT
           </StyledNavLink>
-          <StyledNavLink className={`${pathname === '/memebank' ? 'active-navlink' : ''}`} id={`swap-nav-link`} to={"/memebank"}>
+          <StyledNavLink className={`${pathname === '/memebank' ? 'active-navlink' : ''}`} id={`swap-nav-link`} to={"/"}>
             Meme Bank
           </StyledNavLink>
         </HeaderLinks>
       </RowFixed>
       <HeaderControls>
         <HeaderElement>
-          {/* </> */}
-          <BuyButton>Buy on Pancake</BuyButton>
+          {/* </> */}          
           <PriceBox>
             <PriceIcon>
-              <img width={"24px"} src={PulseDogeLogo} alt="profile" />
+              <img width={"24px"} src={PulseDogeERC} alt="profile" />
             </PriceIcon>
-            <PriceText>$0.009</PriceText>
+            <PriceIcon>
+              <img width={"14px"} src={EthLogo} alt="profile" />
+            </PriceIcon>
+            <PriceText>$0.000</PriceText>
           </PriceBox>
+          <PriceBox>
+            <PriceIcon>
+              <img width={"24px"} src={PulseDogeBEP} alt="profile" />
+            </PriceIcon>
+            <PriceIcon>
+              <img width={"20px"} src={BSCLogo} alt="profile" />
+            </PriceIcon>
+            <PriceText href="https://dexscreener.com/bsc/0xb65697ec1a73ec1bf82677e62cb86d9369ba6c34" target="_blank">{price}</PriceText>
+          </PriceBox>
+          <BuyButton href="https://pancakeswap.finance/swap?outputCurrency=0xd4d55b811d9ede2adce61a98d67d7f91bffce495" target="_blank">Buy on BSC</BuyButton>
           <AccountElement active={!true}>
             <Web3Status />
           </AccountElement>
@@ -227,10 +405,35 @@ export default function Header() {
         <MobileMenuContent>
           <MobileMenu />
         </MobileMenuContent>
-        <HeaderElementWrap>
-          <ToggleTheme />
-        </HeaderElementWrap>
+        <HeaderElementWrap>          
+          <FAQButton onClick={openModal}>?</FAQButton>
+        </HeaderElementWrap>        
       </HeaderControls>
+      <Modal
+        isOpen={modalIsOpen}        
+        onRequestClose={closeModal}
+        style={customStyles}
+        contentLabel="Example Modal"        
+      >
+        <ModalHeaderWrapper>
+          <ModalHeader>
+            Pulsedoge guide
+          </ModalHeader>
+          <ModalClose onClick={closeModal}><X size={24} color="#d16b35" /></ModalClose>
+        </ModalHeaderWrapper>        
+        <ModalContentWrapper>
+          <Scrollbars>
+            <ModalContent>
+            <ModalContentHeader>
+              Frequently Asked Question
+            </ModalContentHeader>
+            {FAQData.map((data, index) => (
+              <FAQAccordion key={index} title={data.title} content={data.content} />
+            ))}
+            </ModalContent>
+          </Scrollbars>
+        </ModalContentWrapper>              
+      </Modal>
     </HeaderFrame>
   );
 }

@@ -25,11 +25,12 @@ const StyledToggleButton = styled.button`
   position: relative;
   width: 35px;
   height: 35px;
-  border: none;
-  background-color: transparent;
+  border: 1px solid #d16b35;
+  /* background-color: transparent; */
   margin: 0 0 0 8px;
   padding: 0;
   background-color: ${({ theme }) => theme.bg3};
+  /* background-color: transparent; */
 
   padding: 0.15rem 0.5rem;
   border-radius: 0.5rem;

@@ -96,7 +96,7 @@ const Footer = () => {
       <SocialIconContent>
         <SocialIconBox>
           <a
-            href="https://telegram.org/"
+            href="https://t.me/Pulsedoge"
             target="_blank"
             rel="noopener noreferrer"
           >
@@ -105,7 +105,7 @@ const Footer = () => {
         </SocialIconBox>
         <SocialIconBox>
           <a
-            href="https://twitter.com/?lang=en"
+            href="https://twitter.com/PulseDogeWin"
             target="_blank"
             rel="noopener noreferrer"
           >
@@ -114,7 +114,7 @@ const Footer = () => {
         </SocialIconBox>
         <SocialIconBox>
           <a
-            href="https://discord.com/"
+            href="https://discord.com/invite/Rce33xGjdH"
             target="_blank"
             rel="noopener noreferrer"
           >
@@ -123,7 +123,7 @@ const Footer = () => {
         </SocialIconBox>
         <SocialIconBox>
           <a
-            href="https://www.instagram.com/?hl=en"
+            href="https://instagram.com/pulsedoge"
             target="_blank"
             rel="noopener noreferrer"
           >
@@ -132,7 +132,7 @@ const Footer = () => {
         </SocialIconBox>
         <SocialIconBox>
           <a
-            href="https://www.youtube.com/"
+            href="https://www.youtube.com/hashtag/pulsedoge"
             target="_blank"
             rel="noopener noreferrer"
           >
@@ -141,7 +141,7 @@ const Footer = () => {
         </SocialIconBox>
         <SocialIconBox>
           <a
-            href="https://medium.com/"
+            href="https://pulsedoge.medium.com/"
             target="_blank"
             rel="noopener noreferrer"
           >

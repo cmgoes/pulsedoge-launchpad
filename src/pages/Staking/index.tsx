@@ -100,8 +100,28 @@ export default function Staking () {
     }
   `;
 
-  const TextLink = styled.span`
+  const HighligtText = styled.pre`
+    display: inline-block;
+    color: #FFFFFF;
+    line-height: 180%;
+    font-size: 16px;
+    opacity: 0.8; 
+    font-style: normal;
+    font-family: SF-Pro-Display-Thin;
+    letter-spacing: 0.06rem;
+    font-weight: 400;
+    margin: 0;
+    @media (min-width: 1200px) {      
+      font-size: 18px;
+    }
+    @media (min-width: 1400px) {      
+      line-height: 200%;
+    }
+  `
+
+  const TextLink = styled.a`
     font-size: 18px;
+    text-decoration: none;
     font-family: SF-Pro-Display-Thin;    
     font-weight: 400;
     color: #FF7F37;
@@ -154,6 +174,7 @@ export default function Staking () {
     font-size: 16px;
     border-radius: 8px;
     font-family: SF-Pro-Display-Thin;    
+    text-decoration: none;
     font-weight: 400;
     padding: 0.7rem 1.5rem;    
     cursor: pointer;
@@ -219,59 +240,61 @@ export default function Staking () {
         <ContentText>
           Echo-staking is first-of-its-kind, DEFLATIONARY staking, meaning you earn rewards without any inflation.
           <br />
-          You can stake up to 369 days and earn a fixed ROI at 36,9% / year.
+          You can stake up to 369 days and earn a fixed ROI at <HighligtText>36,9% / year.</HighligtText>
           <br />
           You also earn the xPulsedoge token as a bonus to your regular yield.
         </ContentText>
         <ContentText>
           The xPulsedoge token acts as a lottery ticket, with which you can win rare NFTs. More about the NFT’s
-          <TextLink> here!</TextLink>
+          <TextLink href="https://linktr.ee/pulsedoge" target="_blank">
+            &nbsp;here!            
+          </TextLink>
         </ContentText>
         <ContactBox>
           <ContactText>Stay Updated</ContactText>
-          <JoinButton>
+          <JoinButton href="https://t.me/Pulsedoge" target="_blank">
             <SocialIcon src={TelegramIcon} alt="Icon" />
             Join Telegram
           </JoinButton>
         </ContactBox>
         <SocialIconContent>          
           <a
-            href="https://telegram.org/"
+            href="https://t.me/Pulsedoge"
             target="_blank"
             rel="noopener noreferrer"
           >
             <SocialIcon src={TelegramIcon} alt="telegram" />
           </a>        
           <a
-            href="https://twitter.com/?lang=en"
+            href="https://twitter.com/PulseDogeWin"
             target="_blank"
             rel="noopener noreferrer"
           >
             <SocialIcon src={TwitterIcon} alt="twitter" />
           </a>        
           <a
-            href="https://discord.com/"
+            href="https://discord.com/invite/Rce33xGjdH"
             target="_blank"
             rel="noopener noreferrer"
           >
             <SocialIcon src={DiscordIcon} alt="discord" />
           </a>        
           <a
-            href="https://www.instagram.com/?hl=en"
+            href="https://instagram.com/pulsedoge"
             target="_blank"
             rel="noopener noreferrer"
           >
             <SocialIcon src={InstagramIcon} alt="instagram" />
           </a>        
           <a
-            href="https://www.youtube.com/"
+            href="https://www.youtube.com/hashtag/pulsedoge"
             target="_blank"
             rel="noopener noreferrer"
           >
             <SocialIcon src={YoutubeIcon} alt="youtube" />
           </a>        
           <a
-            href="https://medium.com/"
+            href="https://pulsedoge.medium.com/"
             target="_blank"
             rel="noopener noreferrer"
           >

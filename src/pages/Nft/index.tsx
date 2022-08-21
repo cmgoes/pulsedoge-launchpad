@@ -97,6 +97,14 @@ export default function Nft () {
     }
   `;
 
+  const TextLink = styled.a`
+    font-size: 18px;
+    text-decoration: none;
+    font-family: SF-Pro-Display-Thin;    
+    font-weight: 400;
+    color: #FF7F37;
+  `;
+
   const ContactBox = styled.div`
     display: flex;
     justify-content: space-between;
@@ -144,6 +152,7 @@ export default function Nft () {
     font-size: 16px;
     font-family: SF-Pro-Display-Thin;    
     font-weight: 400;
+    text-decoration: none;
     border-radius: 8px;
     padding: 0.7rem 1.5rem;    
     cursor: pointer;
@@ -209,7 +218,7 @@ export default function Nft () {
         <ContentText>
           There are 1,476 unique Pulsedoge NFTs to be minted over the course of 369 days
           <br />
-          The  NFTs cannot be bought, you have to win them!
+          The  NFTs can only be minted by winners!
           <br />
           <br />
           To participate in the NFT minting you’ll need xPulsedoge, which functions as a lottery ticket. 
@@ -221,53 +230,53 @@ export default function Nft () {
           <br />
           <br />
           To get xPulsedoge you’ll need to burn Pulsedoge. For every Pulsedoge burned you’ll receive 1 xPulsedoge. 
-          You can also get xPulsedoge from echo-staking.
+          You can also get xPulsedoge from <TextLink href="#/staking">echo-staking.</TextLink>
         </ContentText>        
         <ContactBox>
           <ContactText>Stay Updated</ContactText>
-          <JoinButton>
+          <JoinButton href="https://t.me/Pulsedoge" target="_blank">
             <SocialIcon src={TelegramIcon} alt="Icon" />
             Join Telegram
           </JoinButton>
         </ContactBox>
         <SocialIconContent>          
           <a
-            href="https://telegram.org/"
+            href="https://t.me/Pulsedoge"
             target="_blank"
             rel="noopener noreferrer"
           >
             <SocialIcon src={TelegramIcon} alt="telegram" />
           </a>        
           <a
-            href="https://twitter.com/?lang=en"
+            href="https://twitter.com/PulseDogeWin"
             target="_blank"
             rel="noopener noreferrer"
           >
             <SocialIcon src={TwitterIcon} alt="twitter" />
           </a>        
           <a
-            href="https://discord.com/"
+            href="https://discord.com/invite/Rce33xGjdH"
             target="_blank"
             rel="noopener noreferrer"
           >
             <SocialIcon src={DiscordIcon} alt="discord" />
           </a>        
           <a
-            href="https://www.instagram.com/?hl=en"
+            href="https://instagram.com/pulsedoge"
             target="_blank"
             rel="noopener noreferrer"
           >
             <SocialIcon src={InstagramIcon} alt="instagram" />
           </a>        
           <a
-            href="https://www.youtube.com/"
+            href="https://www.youtube.com/hashtag/pulsedoge"
             target="_blank"
             rel="noopener noreferrer"
           >
             <SocialIcon src={YoutubeIcon} alt="youtube" />
           </a>        
           <a
-            href="https://medium.com/"
+            href="https://pulsedoge.medium.com/"
             target="_blank"
             rel="noopener noreferrer"
           >

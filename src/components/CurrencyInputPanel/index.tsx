@@ -29,7 +29,7 @@ const InputPanel = styled.div<{ hideInput?: boolean }>`
   ${({ theme }) => theme.flexColumnNoWrap}
   position: relative;
   border-radius: ${({ hideInput }) => (hideInput ? "16px" : "20px")};
-  z-index: 1;
+  /* z-index: 1; */
   width: ${({ hideInput }) => (hideInput ? "100%" : "initial")};
   transition: height 1s ease;
   will-change: height;
