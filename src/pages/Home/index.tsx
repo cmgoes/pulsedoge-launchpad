@@ -7,7 +7,7 @@ import styled from "styled-components/macro";
 import GoogleAnalyticsReporter from "../../components/analytics/GoogleAnalyticsReporter";
 import ErrorBoundary from "../../components/ErrorBoundary";
 import Footer from "../../components/Footer";
-import ProgressBar from "../../components/Progressbar";
+// import ProgressBar from "../../components/Progressbar";
 import Web3ReactManager from "../../components/Web3ReactManager";
 import DarkModeQueryParamReader from "../../theme/DarkModeQueryParamReader";
 import AddLiquidity from "../AddLiquidity";
@@ -34,7 +34,7 @@ import {
 } from "../Swap/redirects";
 import BackgroundLand from "../../assets/images/bodybackbg.jpg";
 import CopyIco from "../../assets/images/Vector.png";
-import StakingImage1 from "../../assets/images/spacesuite.png";
+import StakingImage1 from "../../assets/images/SpaceSuite.png";
 import StakingImage2 from "../../assets/images/dhalsim.png";
 
 const Vote = lazy(() => import("../Vote"));
@@ -463,6 +463,10 @@ const StakingCard = styled.div`
   }
 `;
 
+const CardLink = styled.a`
+  text-decoration: none;
+`;
+
 const StakingImageContainer = styled.div`
   display: flex;
   justify-content: center;
@@ -560,7 +564,7 @@ export default function Home() {
       abi: BEP20_ABI,
     };
     const maxSupply = await Web3Api.native.runContractFunction(options);    
-    setSupply(Math.floor((Number(maxSupply) - Number(contractbalance) - Number(burnbalance)) / 10**18));  
+    setSupply(Math.floor((Number(maxSupply) - Number(contractbalance) - Number(burnbalance)) / 10**24));  
   };
 
   useEffect(() => {
@@ -724,12 +728,12 @@ export default function Home() {
         </BodyWrapper>
         <StateTitle>Stats</StateTitle>
         <StateBox>
-          <ProgressBar completed={70} />
+          {/* <ProgressBar completed={70} /> */}
           <StateCardContainer>            
             <StateCard>
               <CardHeader>Pulsedoge - BSC</CardHeader>
               <StateTextWrapper>
-                <Statetext>Supply (shrinking) {supply} / 1Bn</Statetext>
+                <Statetext>Supply (shrinking)<br /> {supply} Million / 1Bn</Statetext>
               </StateTextWrapper>
               <StateCardTitle href="https://dexscreener.com/bsc/0xb65697ec1a73ec1bf82677e62cb86d9369ba6c34" target="_blank">Chart</StateCardTitle>
             </StateCard>
@@ -753,9 +757,11 @@ export default function Home() {
 
       <StakingBox>
         <StakingCard>
-          <StakingImageContainer>
-            <img src={StakingImage1} alt="Staking" />
-          </StakingImageContainer>
+          <CardLink href="#/staking">
+            <StakingImageContainer>
+              <img src={StakingImage1} alt="Staking" />
+            </StakingImageContainer>
+          </CardLink>
           <StakingTitle>What is Echo Staking?</StakingTitle>
           <StakingText>
             Stake your Pulsedoge and earn up to 36,9% yield - 
@@ -764,9 +770,11 @@ export default function Home() {
           <StakingLearnMoreButton href="#/staking">Launch dApp</StakingLearnMoreButton>
         </StakingCard>
         <StakingCard>
-          <StakingImageContainer>
-            <img src={StakingImage2} alt="Staking" />
-          </StakingImageContainer>
+          <CardLink href="#/nft">
+            <StakingImageContainer>
+              <img src={StakingImage2} alt="Staking" />
+            </StakingImageContainer>
+          </CardLink>
           <StakingTitle>Pulsedoge NFT - Winners only can mint</StakingTitle>
           <StakingText>
             Get one of the 1,476 unique Pulsedoge character NFTs by burning Pulsedoge tokens!

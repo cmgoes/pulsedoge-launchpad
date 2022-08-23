@@ -3,8 +3,8 @@ import { NavLink, useLocation } from "react-router-dom";
 import { X } from "react-feather";
 import styled from "styled-components/macro";
 import PulseDogeLogo from "assets/images/Pulsedoge-Logo.png";
-import PulseDogeERC from "assets/images/LogoERC20.png";
-import PulseDogeBEP from "assets/images/LogoBEP20.png";
+// import PulseDogeERC from "assets/images/LogoERC20.png";
+// import PulseDogeBEP from "assets/images/LogoBEP20.png";
 import EthLogo from "assets/images/ethsym.png";
 import BSCLogo from "assets/images/bscsym.png";
 import Row, { RowFixed } from "../Row";
@@ -118,7 +118,7 @@ const BuyButton = styled.a`
   text-align: center;
   border-radius: 12px;
   border: 1px solid #d16b35;
-  padding: 0.5rem;
+  padding: 0.6rem 0.4rem;
   min-width: 110px;
   cursor: pointer;
   color: white;  
@@ -213,8 +213,8 @@ const FAQButton = styled.button`
   background-color: transparent;
   margin: 0;
   padding: 0;
-  height: 32px;  
-  width: 32px;
+  height: 36px;  
+  width: 36px;
   color: #d16b35;
   /* background-color: ${({ theme }) => theme.bg3}; */
   margin-left: 1rem;
@@ -381,19 +381,19 @@ export default function Header() {
           {/* </> */}          
           <PriceBox>
             <PriceIcon>
-              <img width={"24px"} src={PulseDogeERC} alt="profile" />
+              <img width={"28px"} src={PulseDogeLogo} alt="profile" />
             </PriceIcon>
             <PriceIcon>
-              <img width={"14px"} src={EthLogo} alt="profile" />
+              <img width={"16px"} src={EthLogo} alt="profile" />
             </PriceIcon>
             <PriceText>$0.000</PriceText>
           </PriceBox>
           <PriceBox>
             <PriceIcon>
-              <img width={"24px"} src={PulseDogeBEP} alt="profile" />
+              <img width={"28px"} src={PulseDogeLogo} alt="profile" />
             </PriceIcon>
             <PriceIcon>
-              <img width={"20px"} src={BSCLogo} alt="profile" />
+              <img width={"24px"} src={BSCLogo} alt="profile" />
             </PriceIcon>
             <PriceText href="https://dexscreener.com/bsc/0xb65697ec1a73ec1bf82677e62cb86d9369ba6c34" target="_blank">{price}</PriceText>
           </PriceBox>
