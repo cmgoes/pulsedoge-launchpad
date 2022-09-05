@@ -8,7 +8,7 @@ const StyledInput = styled.input<{
   fontSize?: string;
   align?: string;
 }>`
-  color: ${({ error, theme }) => (error ? theme.red1 : theme.text1)};
+  color: ${({ error, theme }) => (error ? theme.red1 : 'white')};
   width: 0;
   position: relative;
   font-weight: 500;
@@ -39,7 +39,7 @@ const StyledInput = styled.input<{
   }
 
   ::placeholder {
-    color: ${({ theme }) => theme.text4};
+    color: white;
   }
 `;
 

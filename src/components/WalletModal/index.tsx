@@ -127,7 +127,7 @@ export default function WalletModal({
   ENSName?: string
 }) {
   // important that these are destructed from the account-specific web3-react context
-  const { active, account, connector, activate, error } = useWeb3React()
+  const { active, account, chainId, connector, activate, error } = useWeb3React()
 
   const [walletView, setWalletView] = useState(WALLET_VIEWS.ACCOUNT)
   const previousWalletView = usePrevious(walletView)
@@ -326,6 +326,23 @@ export default function WalletModal({
             ) : (
               <Trans>Error connecting. Try refreshing the page.</Trans>
             )}
+          </ContentWrapper>
+        </UpperSection>
+      )
+    }
+    if (account && chainId !== 1) {
+      return (
+        <UpperSection>
+          <CloseIcon onClick={toggleWalletModal}>
+            <CloseColor />
+          </CloseIcon>
+          <HeaderRow>
+            <Trans>Wrong Network</Trans>
+          </HeaderRow>
+          <ContentWrapper>            
+            <h5>
+              <Trans>Please connect to a supported network in the dropdown menu or in your wallet.</Trans>
+            </h5>           
           </ContentWrapper>
         </UpperSection>
       )

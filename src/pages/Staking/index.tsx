@@ -1,15 +1,15 @@
 import React from 'react'
 import styled from "styled-components/macro";
 
-import Background from "../../assets/images/bodybackground1.jpg";
-import Logo from "../../assets/images/pulselogo.png";
+import Background from "../../assets/images/bodybackground1.webp";
+import Logo from "../../assets/images/pulselogo.webp";
 
-import DiscordIcon from "assets/images/discord.png";
-import InstagramIcon from "assets/images/instagram.png";
-import MediumIcon from "assets/images/medium.png";
-import TwitterIcon from "assets/images/twitter.png";
-import TelegramIcon from "assets/images/telegram.png";
-import YoutubeIcon from "assets/images/youtube.png";
+import DiscordIcon from "assets/images/discord.webp";
+import InstagramIcon from "assets/images/instagram.webp";
+import MediumIcon from "assets/images/medium.webp";
+import TwitterIcon from "assets/images/twitter.webp";
+import TelegramIcon from "assets/images/telegram.webp";
+import YoutubeIcon from "assets/images/youtube.webp";
 
 export default function Staking () {
   const AppWrapper = styled.div`

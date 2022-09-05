@@ -124,7 +124,6 @@ const Aligner = styled.span`
 const StyledDropDown = styled(DropDown)<{ selected: boolean }>`
   margin: 0 0.25rem 0 0.35rem;
   height: 35%;
-
   path {
     stroke: ${({ theme }) => theme.white};
     stroke-width: 1.5px;
@@ -153,7 +152,6 @@ const StyledBalanceMax = styled.button<{ disabled?: boolean }>`
   color: #ff7f37;
   padding: 4px 8px;
   opacity: ${({ disabled }) => (!disabled ? 1 : 0.4)};
-
   :hover {
     opacity: ${({ disabled }) => (!disabled ? 0.8 : 0.4)};
   }
@@ -331,8 +329,7 @@ export default function CurrencyInputPanel({
                         renderBalance(selectedCurrencyBalance)
                       ) : (
                         <Trans>
-                          Balance:{" "}
-                          {formatCurrencyAmount(selectedCurrencyBalance, 4)}
+                          Balance: {formatCurrencyAmount(selectedCurrencyBalance, 4)}
                         </Trans>
                       )
                     ) : null}

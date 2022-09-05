@@ -59,7 +59,7 @@ const Web3StatusError = styled(Web3StatusGeneric)`
 
 const Web3StatusConnect = styled(Web3StatusGeneric)<{ faded?: boolean }>`
   /* background-color: ${({ theme }) => theme.primary4}; */
-  background-color: #111625;
+  background-color: #ff7f37;
   border: none;
   color: ${({ theme }) => theme.white};
   font-weight: 500;
@@ -103,6 +103,9 @@ const Web3StatusConnected = styled(Web3StatusGeneric)<{ pending?: boolean }>`
           pending ? darken(0.1, theme.primary1) : "#ff7f37"};
     }
   }
+  ${({ theme }) => theme.mediaWidth.upToMedium`
+    background-color: #111625
+  `};  
 `;
 
 const Text = styled.p`
@@ -154,7 +157,7 @@ function WrappedStatusIcon({
 }
 
 function Web3StatusInner() {
-  const { account, connector, error } = useWeb3React();
+  const { account, connector, chainId, error } = useWeb3React();
 
   const { ENSName } = useENSName(account ?? undefined);
 
@@ -173,7 +176,7 @@ function Web3StatusInner() {
   const hasSocks = useHasSocks();
   const toggleWalletModal = useWalletModalToggle();
 
-  if (account) {
+  if (account && chainId === 1) {
     return (
       <Web3StatusConnected
         id="web3-status-connected"
@@ -208,6 +211,15 @@ function Web3StatusInner() {
           ) : (
             <Trans>Error</Trans>
           )}
+        </Text>
+      </Web3StatusError>
+    );
+  } else if((account && chainId !== 1)) {
+    return (
+      <Web3StatusError onClick={toggleWalletModal}>
+        <NetworkIcon />
+        <Text>          
+          <Trans>Wrong Network</Trans>          
         </Text>
       </Web3StatusError>
     );

@@ -1,11 +1,11 @@
 import React from "react";
 import styled from "styled-components/macro";
-import DiscordIcon from "assets/images/discord.png";
-import InstagramIcon from "assets/images/instagram.png";
-import MediumIcon from "assets/images/medium.png";
-import TwitterIcon from "assets/images/twitter.png";
-import TelegramIcon from "assets/images/telegram.png";
-import YoutubeIcon from "assets/images/youtube.png";
+import DiscordIcon from "assets/images/discord.webp";
+import InstagramIcon from "assets/images/instagram.webp";
+import MediumIcon from "assets/images/medium.webp";
+import TwitterIcon from "assets/images/twitter.webp";
+import TelegramIcon from "assets/images/telegram.webp";
+import YoutubeIcon from "assets/images/youtube.webp";
 
 const FooterContainer = styled.div`
   padding: 80px 16px;

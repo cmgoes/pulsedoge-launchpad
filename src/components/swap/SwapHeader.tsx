@@ -1,7 +1,8 @@
-import { useContext } from "react";
+// import { useContext } from "react";
 import { Trans } from "@lingui/macro";
 import { Percent } from "@uniswap/sdk-core";
-import styled, { ThemeContext } from "styled-components/macro";
+// import styled, { ThemeContext } from "styled-components/macro";
+import styled from "styled-components/macro";
 
 import { ThemedText } from "../../theme";
 import { RowBetween, RowFixed } from "../Row";
@@ -18,7 +19,7 @@ export default function SwapHeader({
 }: {
   allowedSlippage: Percent;
 }) {
-  const theme = useContext(ThemeContext);
+  // const theme = useContext(ThemeContext);
   return (
     <StyledSwapHeader>
       <RowBetween>
@@ -26,7 +27,7 @@ export default function SwapHeader({
           <ThemedText.Black
             fontWeight={600}
             fontSize={18}
-            color={theme.text3}
+            color='white'
             style={{ marginRight: "8px" }}
           >
             <Trans>Swap</Trans>

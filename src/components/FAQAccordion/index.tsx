@@ -22,24 +22,45 @@ const FAQTitle = styled.div`
   font-size: 18px;
   line-height: 1.5;
   font-family: "SF-Pro-Display-Semibold";
-  font-weight: bold;
+  font-weight: bold;  
+`;
+
+const FAQContentBox = styled.div`
+  padding-top: 1rem;
+`;
+
+const FAQContainer = styled.div`
+  display: flex;
+  justify-content: flex-start;
 `;
 
 const FAQContent = styled.div`
   color: rgb(119, 126, 137);
   font-size: 16px;
-  font-weight: 400;
-  padding-top: 1rem;
-  font-family: "SF-Pro-Display-Light";
+  font-weight: 400;    
+  font-family: "SF-Pro-Display-Light";     
+`;
+
+const FAQLink = styled.a`
+  color: rgb(209, 107, 53);
+  font-size: 16px;
+  padding-left: 0.25rem;
+  font-weight: 400;    
+  font-family: "SF-Pro-Display-Light";   
+  text-decoration: none;
 `;
 
 
 type Props = {
   title: string;
-  content: string;
+  content?: string;
+  firstlist?: string;
+  secondlist?: string;
+  link?: string;
+  linktext?: string;
 };
 
-const FAQAccordion = ( { title, content }: Props) => {
+const FAQAccordion = ( { title, content, firstlist, secondlist, link, linktext }: Props) => {
   const [isActive, setIsActive] = useState(false);
 
   return (
@@ -48,7 +69,9 @@ const FAQAccordion = ( { title, content }: Props) => {
         <FAQTitle>{title}</FAQTitle>
         <div>{isActive ? <ChevronUp size={20} color="#d16b35" /> : <ChevronDown size={20} color="#d16b35" />}</div>
       </FAQTitleBox>
-      {isActive && <FAQContent>{content}</FAQContent>}
+      {isActive && <FAQContentBox><FAQContent>{content}</FAQContent>
+      <FAQContent>{firstlist}</FAQContent>
+      <FAQContainer><FAQContent>{secondlist}</FAQContent><FAQLink href={link}>{linktext}</FAQLink></FAQContainer></FAQContentBox>}
     </FAQcontainer>
   );
 };

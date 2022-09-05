@@ -27,15 +27,19 @@ import Swap from "../Swap";
 import { useMoralisWeb3Api, useMoralis } from "react-moralis";
 import BEP20_ABI from 'abis/bscpulse.json'
 
+import PulseDogeLogo from "assets/images/Pulsedoge-Logo.webp";
+import EthLogo from "assets/images/ethsym.webp";
+import BSCLogo from "assets/images/bscsym.webp";
+
 import {
   OpenClaimAddressModalAndRedirectToSwap,
   RedirectPathToSwapOnly,
   RedirectToSwap,
 } from "../Swap/redirects";
-import BackgroundLand from "../../assets/images/bodybackbg.jpg";
-import CopyIco from "../../assets/images/Vector.png";
-import StakingImage1 from "../../assets/images/SpaceSuite.png";
-import StakingImage2 from "../../assets/images/dhalsim.png";
+import BackgroundLand from "../../assets/images/bodybackbg.webp";
+import CopyIco from "../../assets/images/Vector.webp";
+import StakingImage1 from "../../assets/images/SpaceSuite.webp";
+import StakingImage2 from "../../assets/images/dhalsim.webp";
 
 const Vote = lazy(() => import("../Vote"));
 
@@ -47,8 +51,8 @@ const AppWrapper = styled.div`
   background: linear-gradient(
       180deg,
       rgba(14, 19, 27, 0.99) 2.58%,
-      rgba(14, 19, 27, 0.15) 47.15%,
-      rgba(14, 19, 27, 0.85) 81.22%,
+      rgba(14, 19, 27, 0.1) 47.15%,
+      rgba(14, 19, 27, 0.75) 85.22%,
       #0e131b 99.99%
     ),
     url(${BackgroundLand});
@@ -115,18 +119,22 @@ const TechContainer = styled.div`
   display: flex;
   flex-direction: column;
   margin-bottom: 20px;
+  padding: 2rem 1.5rem;
+  background-color: rgba(14,19,27,0.5);
+  border-radius: 30px;
+  border: 1px solid rgba(255,255,255,0.1);
   @media (min-width: 768px) {
     max-width: 50%;
   }
 `;
 const HeadTitle = styled.div`
   color: white;
-  font-size: 28px;
+  font-size: 32px;
   font-weight: 700;
   font-family: SF-Pro-Display-Medium;
   padding-bottom: 10px;
   @media (min-width: 1200px) {
-    font-size: 32px;
+    font-size: 48px;
   }
 `;
 
@@ -167,8 +175,9 @@ const AddressBox = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding-left: 16px;
+  padding-left: 8px;
   padding-top: 5px;
+  margin-bottom: 0.5rem;
   padding-bottom: 5px;
   padding-right: 5px;
   border-radius: 8px;
@@ -187,18 +196,38 @@ const AddressBox = styled.div`
   }
 
   @media (min-width: 980px) {
-    max-width: 420px;
+    max-width: 480px;
   }
 `;
 
-const AddressTitle = styled.div`
-  font-weight: 400;
-  font-family: SF-Pro-Display-Medium;
-  letter-spacing: 0.08rem;
-  color: white;
-  font-size: 18px;
-  margin-bottom: 16px;
-`
+const AddressWrapper = styled.div`
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+`;
+
+const PriceBox = styled.div`
+  display: flex;
+  justify-content: space-between;
+  width: 52px;
+`;
+
+const PriceIcon = styled.div`
+  display: flex;
+  align-items: center;
+  :first-child {
+    padding-right: 0.06rem;
+  }
+`;
+
+// const AddressTitle = styled.div`
+//   font-weight: 400;
+//   font-family: SF-Pro-Display-Medium;
+//   letter-spacing: 0.08rem;
+//   color: white;
+//   font-size: 18px;
+//   margin-bottom: 16px;
+// `
 
 const AddressText = styled.div`
   border: none;
@@ -206,15 +235,16 @@ const AddressText = styled.div`
   font-weight: 400;
   font-family: SF-Pro-Display-Thin;
   letter-spacing: 0.08rem;
-  font-size: 9px;
+  padding-left: 0.3rem;
+  font-size: 12px;
   line-height: 14px;
 
   @media (min-width: 360px) {
-    font-size: 10px;
+    font-size: 12px;
   }
 
   @media (min-width: 768px) {
-    font-size: 12px;
+    font-size: 14px;
   }
 
   @media (min-width: 980px) {
@@ -261,28 +291,28 @@ const CopiedText = styled.div`
   letter-spacing: 0.08rem;  
 `;
 
-const ChartButton = styled.a`
-  margin-top: 16px;
-  text-decoration: none;
-  padding: 5px 10px;
-  width: 120px;
-  text-align: center;
-  color: white;
-  font-size: 14px;
-  font-family: SF-Pro-Display-Light;
-  letter-spacing: 0.08rem;
-  line-height: 16px;
-  font-weight: 700;
-  background: rgba(255, 255, 255, 0.05);
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  backdrop-filter: blur(10px);
-  border-radius: 8px;
-  @media (min-width: 768px) {
-    font-size: 16px;
-    line-height: 19px;
-    padding: 7px 14px;
-  }
-`;
+// const ChartButton = styled.a`
+//   margin-top: 16px;
+//   text-decoration: none;
+//   padding: 7px 14px;
+//   width: 120px;
+//   text-align: center;
+//   color: white;
+//   font-size: 14px;
+//   font-family: SF-Pro-Display-Light;
+//   letter-spacing: 0.08rem;
+//   line-height: 16px;
+//   font-weight: 700;
+//   background: rgba(255, 255, 255, 0.05);
+//   border: 1px solid rgba(255, 255, 255, 0.1);
+//   backdrop-filter: blur(10px);
+//   border-radius: 8px;
+//   @media (min-width: 768px) {
+//     font-size: 16px;
+//     line-height: 19px;
+//     padding: 8px 14px;
+//   }
+// `;
 
 const StateTitle = styled.div`
   margin: 24px auto;
@@ -469,14 +499,17 @@ const CardLink = styled.a`
 
 const StakingImageContainer = styled.div`
   display: flex;
-  justify-content: center;
-  /* background: #1774FF;
-  opacity: 0.3;
-  filter: blur(566.167px); */
+  justify-content: center;  
   img {
-    width: 300px;
+    width: 280px;
     z-index: 10;
     @media (min-width: 768px) {
+      width: 320px;
+    }
+    @media (min-width: 1024px) {
+      width: 360px;
+    }
+    @media (min-width: 1400px) {
       width: 400px;
     }
   }
@@ -530,7 +563,8 @@ const Marginer = styled.div`
 `;
 
 export default function Home() {
-  const [isCopied, setIsCopied] = useState<boolean>(false);
+  const [isEthCopied, setIsEthCopied] = useState<boolean>(false);
+  const [isBscCopied, setIsBscCopied] = useState<boolean>(false);
   const { authenticate } = useMoralis();
   const Web3Api = useMoralisWeb3Api();
 
@@ -572,10 +606,17 @@ export default function Home() {
     // eslint-disable-next-line
   }, []);
 
-  const showCopiedText = () => {
-    setIsCopied(true);
+  const showEthCopiedText = () => {
+    setIsEthCopied(true);
     setTimeout(() => {
-      setIsCopied(false);
+      setIsEthCopied(false);
+    }, 2000);
+  };
+
+  const showBscCopiedText = () => {
+    setIsBscCopied(true);
+    setTimeout(() => {
+      setIsBscCopied(false);
     }, 2000);
   };
   return (
@@ -604,22 +645,56 @@ export default function Home() {
               <ListedText>1B max supply, shrinking</ListedText>
               <ListedText>Also Jpegs</ListedText>
             </ListCont>
-            <AddressTitle>BSC address</AddressTitle>
+            {/* <AddressTitle>BSC address</AddressTitle> */}
             <AddressBox>
-              <AddressText>
-                0xd4d55b811d9ede2adce61a98d67d7f91bffce495
-              </AddressText>
+              <AddressWrapper>
+                <PriceBox>
+                  <PriceIcon>
+                    <img width={"28px"} src={PulseDogeLogo} alt="profile" />
+                  </PriceIcon>
+                  <PriceIcon>
+                    <img width={"20px"} height={"28px"} src={EthLogo} alt="profile" />
+                  </PriceIcon>
+                </PriceBox>
+                <AddressText>
+                  {window.innerWidth > 992? '0xd4d55b811d9ede2adce61a98d67d7f91bffce495' : '0xd4d55b811d9ede2adc...e495'}
+                </AddressText>
+              </AddressWrapper>
               <CopyButton>
                 <CopyToClipboard
                   text={"0xd4d55b811d9ede2adce61a98d67d7f91bffce495"}
-                  onCopy={showCopiedText}
+                  onCopy={showEthCopiedText}
                 >
                   <img src={CopyIco} alt="copy" />
                 </CopyToClipboard>
-                {isCopied && <CopiedText>Copied</CopiedText>}
+                {isEthCopied && <CopiedText>Copied</CopiedText>}
               </CopyButton>
             </AddressBox>
-            <ChartButton href="https://dexscreener.com/bsc/0xb65697ec1a73ec1bf82677e62cb86d9369ba6c34" target="_blank">Price Chart</ChartButton>
+            <AddressBox>
+              <AddressWrapper>
+                <PriceBox>
+                  <PriceIcon>
+                    <img width={"28px"} src={PulseDogeLogo} alt="profile" />
+                  </PriceIcon>
+                  <PriceIcon>
+                    <img width={"24px"} src={BSCLogo} alt="profile" />
+                  </PriceIcon>
+                </PriceBox>
+                <AddressText>
+                  {window.innerWidth > 992? '0xd4d55b811d9ede2adce61a98d67d7f91bffce495' : '0xd4d55b811d9ede2adc...e495'}
+                </AddressText>
+              </AddressWrapper>
+              <CopyButton>
+                <CopyToClipboard
+                  text={"0xd4d55b811d9ede2adce61a98d67d7f91bffce495"}
+                  onCopy={showBscCopiedText}
+                >
+                  <img src={CopyIco} alt="copy" />
+                </CopyToClipboard>
+                {isBscCopied && <CopiedText>Copied</CopiedText>}
+              </CopyButton>
+            </AddressBox>
+            {/* <ChartButton href="https://dexscreener.com/bsc/0xb65697ec1a73ec1bf82677e62cb86d9369ba6c34" target="_blank">Price Chart</ChartButton> */}
           </TechContainer>
           <Suspense fallback={<Loader />}>
             <SwapBox>
@@ -716,8 +791,7 @@ export default function Home() {
                     strict
                     path="/migrate/v2/:address"
                     component={MigrateV2Pair}
-                  />                  
-
+                  />    
                   {/* <Route component={RedirectPathToSwapOnly} /> */}
                 </Switch>
               </Web3ReactManager>
@@ -760,6 +834,7 @@ export default function Home() {
           <CardLink href="#/staking">
             <StakingImageContainer>
               <img src={StakingImage1} alt="Staking" />
+              {/* <img src="https://drive.google.com/uc?export=view&id=1-eZTqzi7qWIwb11WZxd8xPettZsD2r9X" alt="driveimage" /> */}
             </StakingImageContainer>
           </CardLink>
           <StakingTitle>What is Echo Staking?</StakingTitle>
@@ -767,7 +842,7 @@ export default function Home() {
             Stake your Pulsedoge and earn up to 36,9% yield - 
             the rewards come from existing supply so it is never inflationary!
           </StakingText>          
-          <StakingLearnMoreButton href="#/staking">Launch dApp</StakingLearnMoreButton>
+          <StakingLearnMoreButton href="https://pulsedoge.medium.com/what-is-echo-staking-c8763e1a5ade" target="_blank">Read more</StakingLearnMoreButton>
         </StakingCard>
         <StakingCard>
           <CardLink href="#/nft">
@@ -780,7 +855,7 @@ export default function Home() {
             Get one of the 1,476 unique Pulsedoge character NFTs by burning Pulsedoge tokens!
             That&apos;s right, we found a way to ACTUALLY create a pumpamental for jpegs
           </StakingText>          
-          <StakingLearnMoreButton href="#/nft">Launch dApp</StakingLearnMoreButton>
+          <StakingLearnMoreButton href="https://pulsedoge.medium.com/pulsedoge-bernementals-nfts-5b245522fdcd" target="_blank">Read more</StakingLearnMoreButton>
         </StakingCard>
       </StakingBox>
       <Footer />

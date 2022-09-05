@@ -2,11 +2,10 @@ import { useState, useEffect } from "react";
 import { NavLink, useLocation } from "react-router-dom";
 import { X } from "react-feather";
 import styled from "styled-components/macro";
-import PulseDogeLogo from "assets/images/Pulsedoge-Logo.png";
-// import PulseDogeERC from "assets/images/LogoERC20.png";
-// import PulseDogeBEP from "assets/images/LogoBEP20.png";
-import EthLogo from "assets/images/ethsym.png";
-import BSCLogo from "assets/images/bscsym.png";
+import PulseDogeLogo from "assets/images/Pulsedoge-Logo.webp";
+import PulseDogeHeaderLogo from "assets/images/PulsedogeLogoWhite.webp";
+import EthLogo from "assets/images/ethsym.webp";
+import BSCLogo from "assets/images/bscsym.webp";
 import Row, { RowFixed } from "../Row";
 import Web3Status from "../Web3Status";
 import MobileMenu from "./MobileMenu";
@@ -124,7 +123,10 @@ const BuyButton = styled.a`
   color: white;  
   :hover {
     opacity: 0.8;
-  }
+  };
+  ${({ theme }) => theme.mediaWidth.upToSmall`
+    display: none;
+  `}
 `
 
 const PriceBox = styled.div`
@@ -134,7 +136,7 @@ const PriceBox = styled.div`
   justify-content: center;
   align-items: center;
   padding: 3px 6px;
-  ${({ theme }) => theme.mediaWidth.upToExtraSmall`
+  ${({ theme }) => theme.mediaWidth.upToSmall`
     display: none;
   `}
 `;
@@ -358,7 +360,7 @@ export default function Header() {
         <Title href=".">
           <UniIcon>
             {/* <img width={'120px'} src={isDark ? LogoDark : Logo} alt="logo" /> */}
-            <img width={"36px"} src={PulseDogeLogo} alt="logo" />
+            <img width={"160px"} src={PulseDogeHeaderLogo} alt="logo" />
           </UniIcon>
         </Title>
         <HeaderLinks>
@@ -395,7 +397,7 @@ export default function Header() {
             <PriceIcon>
               <img width={"24px"} src={BSCLogo} alt="profile" />
             </PriceIcon>
-            <PriceText href="https://dexscreener.com/bsc/0xb65697ec1a73ec1bf82677e62cb86d9369ba6c34" target="_blank">{price}</PriceText>
+            <PriceText href="https://dexscreener.com/bsc/0xb65697ec1a73ec1bf82677e62cb86d9369ba6c34" target="_blank">${price}</PriceText>
           </PriceBox>
           <BuyButton href="https://pancakeswap.finance/swap?outputCurrency=0xd4d55b811d9ede2adce61a98d67d7f91bffce495" target="_blank">Buy on BSC</BuyButton>
           <AccountElement active={!true}>
@@ -428,7 +430,7 @@ export default function Header() {
               Frequently Asked Question
             </ModalContentHeader>
             {FAQData.map((data, index) => (
-              <FAQAccordion key={index} title={data.title} content={data.content} />
+              <FAQAccordion key={index} title={data.title} content={data?.content} firstlist={data?.firstlist} secondlist={data?.secondlist} link={data?.link} linktext={data?.linktext}/>
             ))}
             </ModalContent>
           </Scrollbars>
